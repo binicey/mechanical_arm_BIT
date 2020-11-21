@@ -10,8 +10,23 @@ int SEPPER_X=1;
 int SEPPER_F=2;
 int STPPER_W=3;
 int SERVO=4;
+// 机械臂初始位置的确定
+
+
+
+// 错误与运动检测
+
+
+
+// 调用预设离线模式
+// 离线模式参数的设定
+
+
+
+// 手动操控模式函数集合
 void ARM_UP_move(int data)
 {
+    
     Serial.println(data);
 }
 void ARM_DOWN_move(int data)
