@@ -5,10 +5,45 @@
  * @Last Modified time: 2020-11-14 17:59:11 
  */
 //设置电机引脚
-int SEPPER_X = 1;
-int SEPPER_F = 2;
-int STPPER_W = 3;
-int SERVO = 4;
+#include <AccelStepper.h>
+const int enablePin = 8;
+const int Stepper_x_direction = 4;
+const int Stepper_x = 2;
+const int Stepper_y_direction = 5;
+const int Stepper_y = 3;
+const int Stepper_z_direction = 6;
+const int Stepper_z = 4;
+const int SERVO = 9;
+
+// 建立电机对象
+AccelStepper stepperX(1, Stepper_x, Stepper_x_direction);
+AccelStepper stepperY(1, Stepper_y, Stepper_y_direction);
+AccelStepper stepperZ(1, Stepper_z, Stepper_z_direction);
+// 控制电机引脚的初始化
+void stepperStup()
+{
+    // 电机引脚
+    pinMode(Stepper_x, OUTPUT);
+    pinMode(Stepper_y, OUTPUT);
+    pinMode(Stepper_z, OUTPUT);
+    pinMode(Stepper_x_direction, OUTPUT);
+    pinMode(Stepper_z_direction, OUTPUT);
+    pinMode(Stepper_z_direction, OUTPUT);
+    // 开关引脚
+    pinMode(enablePin, OUTPUT);
+}
+//电机控制板开关
+void adminControl(bool data)
+{
+    if (data == true)
+    {
+        digitalWrite(enablePin, LOW);
+    }
+    else
+    {
+        digitalWrite(enablePin, HIGH);
+    }
+}
 // 机械臂初始位置的确定
 
 // 错误与运动检测
