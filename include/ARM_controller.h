@@ -14,7 +14,8 @@ const int Stepper_y = 3;
 const int Stepper_z_direction = 6;
 const int Stepper_z = 4;
 const int SERVO = 9;
-
+//外部函数声明
+extern void BT_ERROR(int Error_NUM);
 // 建立电机对象
 AccelStepper stepperX(1, Stepper_x, Stepper_x_direction);
 AccelStepper stepperY(1, Stepper_y, Stepper_y_direction);
@@ -44,8 +45,31 @@ void adminControl(bool data)
         digitalWrite(enablePin, HIGH);
     }
 }
-// 机械臂初始位置的确定
 
+
+// 机械臂初始位置的确定
+void initPosition(int stepperNUM)
+{
+    switch (stepperNUM)
+    {
+    case 1:
+        stepperX.setCurrentPosition(stepperX.currentPosition());
+        break;
+    case 2:
+        stepperY.setCurrentPosition(stepperY.currentPosition());
+        break;
+    case 3:
+        stepperZ.setCurrentPosition(stepperZ.currentPosition());
+        break;
+    case 4:
+        stepperX.setCurrentPosition(stepperX.currentPosition());
+        stepperY.setCurrentPosition(stepperY.currentPosition());
+        stepperZ.setCurrentPosition(stepperZ.currentPosition());
+    default:
+        BT_ERROR(1);
+        break;
+    }
+}
 // 错误与运动检测
 void ARMError()
 {

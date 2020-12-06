@@ -33,7 +33,9 @@ void BT_ERROR(int Error_NUM)
         BT.println("Invalid Commond");
         delay(100);
         break;
-
+    case 1:
+        BT.println("Init Stepper Position Failed!");
+        delay(100);
     default:
         break;
     }
