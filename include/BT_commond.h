@@ -14,8 +14,8 @@ void BT_main();
 //蓝牙指令模式
 
 // 蓝牙参数的初始化
-int BT_RX = 8;
-int BT_TX = 7;
+int BT_RX = 6;
+int BT_TX = 5;
 SoftwareSerial BT = SoftwareSerial(BT_RX, BT_TX);
 // 初始化蓝牙串口
 void BTsetup()
@@ -79,16 +79,16 @@ void BT_main()
         switch (BT_commond)
         {
         case 'u':
-            ARM_UP_move(BT_data);
+            ARM_ForwordAndBack_move(BT_data);
             break;
         case 'd':
-            ARM_DOWN_move(BT_data);
+            ARM_ForwordAndBack_move(-BT_data);
             break;
         case 'r':
-            ARM_RIGHT_move(BT_data);
+            ARM_RightAndLeft_move(BT_data);
             break;
         case 'l':
-            ARM_LEFT_move(BT_data);
+            ARM_RightAndLeft_move(-BT_data);
         case 'c':
             armClaw(BT_data);
             break;

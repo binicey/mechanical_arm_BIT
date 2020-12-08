@@ -8,9 +8,11 @@
 #include <main.h>
 extern void BTsetup();
 extern void BT_main();
+extern AccelStepper stepperX;
 // BTsetup(BT_RX,BT_TX);
 void setup()
 {
+    pinMode(7,OUTPUT);
     // initialize digital pin LED_BUILTIN as an output.
     BTsetup();
     Serial.begin(9600);
