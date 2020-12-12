@@ -1,8 +1,9 @@
-/*
- * @Author: Iccccy.xie(binicey@outlook.com) 
- * @Date: 2020-11-14 17:59:11 
- * @Last Modified by:   Iccccy.xie(binicey@outlook.com) 
- * @Last Modified time: 2020-11-14 17:59:11 
+/*** 
+ * @Author: Iccccy.xie
+ * @Date: 2020-11-14 16:00:26
+ * @LastEditTime: 2020-12-12 23:40:56
+ * @LastEditors: Iccccy.xie(binicey@outlook.com)
+ * @FilePath: \Mechanical _Arm\include\ARM_controller.h
  */
 //设置电机引脚
 #include <AccelStepper.h>
@@ -109,9 +110,39 @@ void ARMError()
 
 // 调用预设离线模式
 // 离线模式参数的设定
-void ARM_setted_mod(int data)
+void ARM_setted_mod()
 {
     Serial.println(data);
+    //参数与步骤输入
+    int commend[1] = {};
+    int data[1] = {};
+    int time[1] = {}
+    //x,y,z分别对应三个电机的旋转输入参数为转角
+    // 正数为正转，负数为逆转（考虑坐标系参数输入）
+    // k为夹爪控制命令
+    // 1为加紧，0为松开
+
+    for (int i = 0, i < sizeof(commend) / sizeof(int), i++)
+    {
+        switch (commend[i])
+        {
+        case 'x':
+            /* code */
+            break;
+        case 'y':
+            /* code */
+            break;
+        case 'z':
+            /* code */
+            break;
+        case 'k':
+            /* code */
+            break;
+        default:
+            ARMError();
+            break;
+        }
+    }
 }
 
 // 手动操控模式函数集合列举
@@ -125,34 +156,111 @@ void ARM_setted_mod(int data)
 //前后运动
 void ARM_ForwordAndBack_move(int data)
 {
-    int One_step = 1;
-    if (data > 0)
+    int One_step = 10;
+    if (data == 0)
     {
+        int step = stepperX.currentPosition() + One_step;
         Serial.println(stepperX.currentPosition());
-        stepperX.moveTo(data);
         stepperX.setAcceleration(500.0);
-        stepperX.setSpeed(2000.0);
-        while (stepperX.currentPosition() != data)
+        stepperX.setSpeed(000.0);
+        while (stepperX.currentPosition() != step)
         {
             // Serial.println(stepperX.currentPosition());
-            stepperX.run();
+            stepperX.runSpeed();
         }
-            Serial.println(stepperX.currentPosition());
+        Serial.println(stepperX.currentPosition());
+    }
+    else if (data == 1)
+    {
+        int step = stepperX.currentPosition() - One_step;
+        Serial.println(stepperX.currentPosition());
+        stepperX.setAcceleration(500.0);
+        stepperX.setSpeed(000.0);
+        while (stepperX.currentPosition() != step)
+        {
+            // Serial.println(stepperX.currentPosition());
+            stepperX.runSpeed();
+        }
+        Serial.println(stepperX.currentPosition());
+    }
+    else
+    {
+        ARMError();
     }
 }
 //上下运动
 void ARM_UpAndDown_move(int data)
 {
-    // 参数检验
-    if (data == 1)
-    {
-    }
     Serial.println(data);
+    int One_step = 10;
+    if (data == 0)
+    {
+        int step = stepperY.currentPosition() + One_step;
+        Serial.println(stepperY.currentPosition());
+        stepperY.setAcceleration(500.0);
+        stepperY.setSpeed(000.0);
+        while (stepperY.currentPosition() != step)
+        {
+            // Serial.println(stepperY.currentPosition());
+            stepperY.runSpeed();
+        }
+        Serial.println(stepperY.currentPosition());
+    }
+    else if (data == 1)
+    {
+        int step = stepperY.currentPosition() - One_step;
+        Serial.println(stepperY.currentPosition());
+        stepperY.setAcceleration(500.0);
+        stepperY.setSpeed(000.0);
+        while (stepperY.currentPosition() != step)
+        {
+            // Serial.println(stepperY.currentPosition());
+            stepperY.runSpeed();
+        }
+        Serial.println(stepperY.currentPosition());
+    }
+    else
+    {
+        ARMError();
+    }
 }
 //左右转动
 void ARM_RightAndLeft_move(int data)
 {
+
+    // 参数检验
     Serial.println(data);
+    int One_step = 10;
+    if (data == 0)
+    {
+        int step = stepperZ.currentPosition() + One_step;
+        Serial.println(stepperZ.currentPosition());
+        stepperZ.setAcceleration(500.0);
+        stepperZ.setSpeed(000.0);
+        while (stepperZ.currentPosition() != step)
+        {
+            // Serial.println(stepperZ.currentPosition());
+            stepperZ.runSpeed();
+        }
+        Serial.println(stepperZ.currentPosition());
+    }
+    else if (data == 1)
+    {
+        int step = stepperZ.currentPosition() - One_step;
+        Serial.println(stepperZ.currentPosition());
+        stepperZ.setAcceleration(500.0);
+        stepperZ.setSpeed(000.0);
+        while (stepperZ.currentPosition() != step)
+        {
+            // Serial.println(stepperZ.currentPosition());
+            stepperZ.runSpeed();
+        }
+        Serial.println(stepperZ.currentPosition());
+    }
+    else
+    {
+        ARMError();
+    }
 }
 //钳爪控制函数集合
 void armClaw(int data)

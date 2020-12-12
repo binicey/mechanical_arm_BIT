@@ -1,8 +1,9 @@
-/*
- * @Author: Iccccy.xie(binicey@outlook.com) 
- * @Date: 2020-11-14 17:59:02 
- * @Last Modified by:   Iccccy.xie(binicey@outlook.com) 
- * @Last Modified time: 2020-11-14 17:59:02 
+/*** 
+ * @Author: Iccccy.xie
+ * @Date: 2020-11-14 17:59:02
+ * @LastEditTime: 2020-12-12 23:40:25
+ * @LastEditors: Iccccy.xie(binicey@outlook.com)
+ * @FilePath: \Mechanical _Arm\src\main.cpp
  */
 
 #include <main.h>

@@ -1,8 +1,9 @@
-/*
- * @Author: Iccccy.xie(binicey@outlook.com) 
- * @Date: 2020-11-14 17:59:53 
- * @Last Modified by:   Iccccy.xie(binicey@outlook.com) 
- * @Last Modified time: 2020-11-14 17:59:53 
+/*** 
+ * @Author: Iccccy.xie
+ * @Date: 2020-11-14 17:59:53
+ * @LastEditTime: 2020-12-12 23:39:58
+ * @LastEditors: Iccccy.xie(binicey@outlook.com)
+ * @FilePath: \Mechanical _Arm\include\BT_commond.h
  */
 
 #include <ARM_controller.h>
