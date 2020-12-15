@@ -1,7 +1,7 @@
 /*** 
  * @Author: Iccccy.xie
  * @Date: 2020-11-14 17:59:02
- * @LastEditTime: 2020-12-12 23:40:25
+ * @LastEditTime: 2020-12-15 10:05:01
  * @LastEditors: Iccccy.xie(binicey@outlook.com)
  * @FilePath: \Mechanical _Arm\src\main.cpp
  */
@@ -16,6 +16,7 @@ void setup()
     pinMode(7,OUTPUT);
     // initialize digital pin LED_BUILTIN as an output.
     BTsetup();
+    armClawSetup();
     Serial.begin(9600);
 }
 // the loop function runs over and over again forever

@@ -1,7 +1,7 @@
 /*** 
  * @Author: Iccccy.xie
  * @Date: 2020-11-14 17:59:53
- * @LastEditTime: 2020-12-12 23:39:58
+ * @LastEditTime: 2020-12-15 09:49:16
  * @LastEditors: Iccccy.xie(binicey@outlook.com)
  * @FilePath: \Mechanical _Arm\include\BT_commond.h
  */
@@ -22,7 +22,7 @@ SoftwareSerial BT = SoftwareSerial(BT_RX, BT_TX);
 void BTsetup()
 {
     BT.begin(9600);
-    BT.print("online");
+    BT.println("online");
 }
 
 // 指令读取报错
@@ -90,11 +90,12 @@ void BT_main()
             break;
         case 'l':
             ARM_RightAndLeft_move(-BT_data);
+            break;
         case 'c':
             armClaw(BT_data);
             break;
         case 'S':
-            ARM_setted_mod(BT_data);
+            ARM_setted_mod();
             break;
         }
     }

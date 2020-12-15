@@ -1,12 +1,13 @@
 /*** 
  * @Author: Iccccy.xie
  * @Date: 2020-11-14 16:00:26
- * @LastEditTime: 2020-12-12 23:40:56
+ * @LastEditTime: 2020-12-15 10:08:23
  * @LastEditors: Iccccy.xie(binicey@outlook.com)
  * @FilePath: \Mechanical _Arm\include\ARM_controller.h
  */
 //设置电机引脚
 #include <AccelStepper.h>
+#include <servo.h>
 const int enablePin = 8;
 //x与y电机加有减速器减速比1：20
 const int stepper_de = 20;
@@ -18,7 +19,8 @@ const int Stepper_y = 0;
 const int stepper_de_z = 0;
 const int Stepper_z_direction = 0;
 const int Stepper_z = 0;
-const int SERVO = 0;
+const int SERVO = 12;
+Servo myservo;
 //外部函数声明
 extern void BT_ERROR(int Error_NUM);
 // 建立电机对象
@@ -112,17 +114,17 @@ void ARMError()
 // 离线模式参数的设定
 void ARM_setted_mod()
 {
-    Serial.println(data);
+    Serial.println("setedMod ON");
     //参数与步骤输入
-    int commend[1] = {};
-    int data[1] = {};
-    int time[1] = {}
+    int commend[1] = {1};
+    int data[1] = {1};
+    int time[1] = {1};
     //x,y,z分别对应三个电机的旋转输入参数为转角
     // 正数为正转，负数为逆转（考虑坐标系参数输入）
     // k为夹爪控制命令
     // 1为加紧，0为松开
 
-    for (int i = 0, i < sizeof(commend) / sizeof(int), i++)
+    for (int i = 0; i < sizeof(commend) / sizeof(int); i++)
     {
         switch (commend[i])
         {
@@ -262,18 +264,51 @@ void ARM_RightAndLeft_move(int data)
         ARMError();
     }
 }
-//钳爪控制函数集合
+//舵机控制函数
+void armClawSetup()
+{
+    myservo.attach(SERVO); // Servo对象连接在9号引脚
+    myservo.write(0);
+}
+//contributed by HuanMu
 void armClaw(int data)
 {
+    int limitation = 70;
+    // int pos=0;
     //0为张开
     //1为加紧
     if (data == 1)
     {
+        Serial.print("data=");
+        Serial.println(myservo.read());
+        if (myservo.read() == limitation)
+        {
+            ARMError();
+            return;
+        }
         Serial.println("Claw close");
+        for (int pos = 0; pos <= limitation; pos += 5)
+        { // 0度转到70度
+            // 每一步增加1度
+            myservo.write(pos); // 告诉伺服电机达到'pos'变量的角度
+            // Serial.println(pos);
+            delay(100);
+        }
     }
     else if (data == 0)
     {
+        if (myservo.read() == 0)
+        {
+            ARMError();
+            return;
+        }
         Serial.println("Claw open");
+        for (int pos = limitation; pos >= 0; pos -= 5)
+        {                       // 70度转到0度
+            myservo.write(pos); // 告诉伺服电机达到'pos'变量的角度
+            // Serial.println(pos);
+            delay(100);
+        }
     }
     else
     {
