@@ -1,7 +1,7 @@
 /*** 
  * @Author: Iccccy.xie
  * @Date: 2020-11-14 16:00:26
- * @LastEditTime: 2020-12-15 10:08:23
+ * @LastEditTime: 2021-01-08 14:26:07
  * @LastEditors: Iccccy.xie(binicey@outlook.com)
  * @FilePath: \Mechanical _Arm\include\ARM_controller.h
  */
@@ -10,22 +10,22 @@
 #include <servo.h>
 const int enablePin = 8;
 //x与y电机加有减速器减速比1：20
-const int stepper_de = 20;
-const int Stepper_x_direction = 10;
-const int Stepper_x = 8;
-const int Stepper_y_direction = 0;
-const int Stepper_y = 0;
+const int stepper_de = 1;
+const int Stepper_x_direction = 5;
+const int Stepper_x = 2;
+const int Stepper_y_direction = 6;
+const int Stepper_y = 3;
 //z电机为带轮减速，减速比为1：4
-const int stepper_de_z = 0;
-const int Stepper_z_direction = 0;
-const int Stepper_z = 0;
-const int SERVO = 12;
+const int stepper_de_z = 4 * 20;
+const int Stepper_z_direction = 7;
+const int Stepper_z = 4;
+const int SERVO = 11;
 Servo myservo;
 //外部函数声明
 extern void BT_ERROR(int Error_NUM);
 // 建立电机对象
-AccelStepper stepperX(8, 8, 10, 9, 11);
-// AccelStepper stepperX(8, Stepper_x, Stepper_x_direction);
+// AccelStepper stepperX(8, 8, 10, 9, 11);
+AccelStepper stepperX(1, Stepper_x, Stepper_x_direction);
 AccelStepper stepperY(1, Stepper_y, Stepper_y_direction);
 AccelStepper stepperZ(1, Stepper_z, Stepper_z_direction);
 // 控制电机引脚的初始化
@@ -40,6 +40,13 @@ void stepperStup()
     pinMode(Stepper_z_direction, OUTPUT);
     // 开关引脚
     pinMode(enablePin, OUTPUT);
+    //设置电机速度
+    stepperX.setAcceleration(5000.0);
+    stepperX.setSpeed(50000.0);
+    stepperY.setAcceleration(5000.0);
+    stepperY.setSpeed(50000.0);
+    stepperZ.setAcceleration(5000.0);
+    stepperZ.setSpeed(50000.0);
 }
 //电机控制板开关
 void adminControl(bool data)
@@ -158,32 +165,38 @@ void ARM_setted_mod()
 //前后运动
 void ARM_ForwordAndBack_move(int data)
 {
-    int One_step = 10;
-    if (data == 0)
+    int One_step = data * stepper_de;
+    if (data < 0)
     {
         int step = stepperX.currentPosition() + One_step;
-        Serial.println(stepperX.currentPosition());
-        stepperX.setAcceleration(500.0);
-        stepperX.setSpeed(000.0);
+        // Serial.println(stepperX.currentPosition());
+        stepperX.moveTo(step);
+        stepperY.moveTo(step);
+        stepperZ.moveTo(step);
         while (stepperX.currentPosition() != step)
         {
             // Serial.println(stepperX.currentPosition());
-            stepperX.runSpeed();
+            stepperX.run();
+            stepperY.run();
+            stepperZ.run();
         }
-        Serial.println(stepperX.currentPosition());
+        // Serial.println(stepperX.currentPosition());
     }
-    else if (data == 1)
+    else if (data > 0)
     {
         int step = stepperX.currentPosition() - One_step;
-        Serial.println(stepperX.currentPosition());
-        stepperX.setAcceleration(500.0);
-        stepperX.setSpeed(000.0);
+        // Serial.println(stepperX.currentPosition());
+        stepperX.moveTo(step);
+        stepperY.moveTo(step);
+        stepperZ.moveTo(step);
         while (stepperX.currentPosition() != step)
         {
             // Serial.println(stepperX.currentPosition());
-            stepperX.runSpeed();
+            stepperX.run();
+            stepperY.run();
+            stepperZ.run();
         }
-        Serial.println(stepperX.currentPosition());
+        // Serial.println(stepperX.currentPosition());
     }
     else
     {
@@ -314,4 +327,19 @@ void armClaw(int data)
     {
         ARMError();
     }
+}
+
+void testfun()
+{
+    int moveSteps = 2000;
+    stepperX.setMaxSpeed(3000.0); // 设置电机最大速度300
+    stepperX.setAcceleration(200.0);
+    // 控制步进电机往复运动
+    stepperX.moveTo(moveSteps);
+    while (stepperX.currentPosition() != moveSteps)
+    {
+        Serial.println("runing");
+        stepperX.run(); // 1号电机运行
+    }
+    Serial.println("finish");
 }

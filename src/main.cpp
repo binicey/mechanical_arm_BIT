@@ -1,7 +1,7 @@
 /*** 
  * @Author: Iccccy.xie
  * @Date: 2020-11-14 17:59:02
- * @LastEditTime: 2020-12-15 10:05:01
+ * @LastEditTime: 2021-01-06 20:52:05
  * @LastEditors: Iccccy.xie(binicey@outlook.com)
  * @FilePath: \Mechanical _Arm\src\main.cpp
  */
@@ -13,6 +13,7 @@ extern AccelStepper stepperX;
 // BTsetup(BT_RX,BT_TX);
 void setup()
 {
+    stepperStup();
     pinMode(7,OUTPUT);
     // initialize digital pin LED_BUILTIN as an output.
     BTsetup();

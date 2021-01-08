@@ -1,7 +1,7 @@
 /*** 
  * @Author: Iccccy.xie
  * @Date: 2020-11-14 17:59:53
- * @LastEditTime: 2020-12-15 09:49:16
+ * @LastEditTime: 2021-01-06 20:53:06
  * @LastEditors: Iccccy.xie(binicey@outlook.com)
  * @FilePath: \Mechanical _Arm\include\BT_commond.h
  */
@@ -15,8 +15,8 @@ void BT_main();
 //蓝牙指令模式
 
 // 蓝牙参数的初始化
-int BT_RX = 6;
-int BT_TX = 5;
+int BT_RX = 10;
+int BT_TX = 9;
 SoftwareSerial BT = SoftwareSerial(BT_RX, BT_TX);
 // 初始化蓝牙串口
 void BTsetup()
@@ -81,7 +81,8 @@ void BT_main()
         {
         case 'u':
             ARM_ForwordAndBack_move(BT_data);
-            break;
+            // testfun();
+                break;
         case 'd':
             ARM_ForwordAndBack_move(-BT_data);
             break;
